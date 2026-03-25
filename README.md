@@ -75,3 +75,5 @@ To activate the backend logic, import the `automation/order_workflow.json` file 
 
 ---
 *Developed as the ultimate statement in digital luxury e-commerce.*
+
+Watch Live: https://velourapremiumperfume.netlify.app/

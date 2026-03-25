@@ -1,0 +1,384 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ==============================
+   DESIGN SYSTEM — VELOURA LUXURY
+   ============================== */
+
+:root {
+  --gold: #D4AF37;
+  --gold-light: #F2E4B0;
+  --gold-dark: #A68A2E;
+  --black: #050505;
+  --black-soft: #0F0F0F;
+  --cream: #FFFCF5;
+  --cream-dark: #F7F2E6;
+  --glass-bg: rgba(255, 252, 245, 0.4);
+  --glass-border: rgba(212, 175, 55, 0.15);
+  --text-primary: #1A1A1A;
+  --text-secondary: #525252;
+  --text-muted: #8C8C8C;
+  --accent-soft: rgba(212, 175, 55, 0.08);
+  background-color: var(--cream);
+  color: var(--text-primary);
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ==============================
+   ORBITAL BLUR BACKGROUND
+   ============================== */
+
+.orbital-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  background: var(--cream);
+  overflow: hidden;
+}
+
+.orbital-bg::before,
+.orbital-bg::after {
+  content: '';
+  position: absolute;
+  width: 80vw;
+  height: 80vw;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.15;
+  animation: orbit 30s linear infinite;
+}
+
+.orbital-bg::before {
+  background: radial-gradient(circle, var(--gold) 0%, transparent 70%);
+  top: -20%;
+  left: -20%;
+}
+
+.orbital-bg::after {
+  background: radial-gradient(circle, var(--gold-dark) 0%, transparent 70%);
+  bottom: -20%;
+  right: -20%;
+  animation-duration: 40s;
+  animation-direction: reverse;
+}
+
+@keyframes orbit {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(10vw, 5vh) rotate(180deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+/* ==============================
+   TYPOGRAPHY
+   ============================== */
+
+.font-serif {
+  font-family: 'Playfair Display', serif;
+}
+
+.tracking-luxury {
+  letter-spacing: 0.35em;
+}
+
+/* ==============================
+   PREMIUM GLASSMORPHISM
+   ============================== */
+
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(25px) saturate(180%);
+  -webkit-backdrop-filter: blur(25px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: 
+    0 4px 30px rgba(0, 0, 0, 0.03),
+    inset 0 0 20px rgba(255, 255, 255, 0.4);
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.glass-card:hover {
+  border-color: var(--gold);
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.08),
+    inset 0 0 30px rgba(255, 255, 255, 0.6);
+  transform: translateY(-8px);
+}
+
+/* ==============================
+   LUXURY BUTTONS
+   ============================== */
+
+.luxury-btn {
+  @apply px-10 py-4 text-[10px] uppercase tracking-[0.3em] font-bold
+         bg-black text-luxury-gold border border-luxury-gold/40;
+  transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.luxury-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(212,175,55,0.2), transparent);
+  transition: 0.6s;
+}
+
+.luxury-btn:hover::after {
+  left: 100%;
+}
+
+.luxury-btn:hover {
+  @apply bg-luxury-gold text-black border-luxury-gold scale-105;
+  box-shadow: 0 0 40px rgba(212, 175, 55, 0.4);
+}
+
+.luxury-btn-outline {
+  @apply px-10 py-4 text-[10px] uppercase tracking-[0.3em] font-bold
+         bg-transparent text-black border border-black/20;
+  transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.luxury-btn-outline:hover {
+  @apply bg-black/5 border-black scale-105;
+}
+
+/* ==============================
+   SCROLL REVEAL UTILITY
+   ============================== */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(40px) scale(0.98);
+  transition: all 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* ==============================
+   HERO VIDEO SECTION
+   ============================== */
+
+.hero-video-container {
+  position: relative;
+  overflow: hidden;
+  min-height: 600px;
+}
+
+.hero-video-container video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  z-index: 0;
+}
+
+.hero-video-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(10, 10, 10, 0.92) 0%,
+    rgba(10, 10, 10, 0.80) 40%,
+    rgba(10, 10, 10, 0.88) 100%
+  );
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* ==============================
+   3D PERFUME FLOAT ANIMATION
+   ============================== */
+
+@keyframes float-rotate {
+  0% {
+    transform: translateY(0px) rotateY(0deg) scale(1);
+  }
+  25% {
+    transform: translateY(-18px) rotateY(6deg) scale(1.02);
+  }
+  50% {
+    transform: translateY(-30px) rotateY(0deg) scale(1.04);
+  }
+  75% {
+    transform: translateY(-18px) rotateY(-6deg) scale(1.02);
+  }
+  100% {
+    transform: translateY(0px) rotateY(0deg) scale(1);
+  }
+}
+
+.animate-float-rotate {
+  animation: float-rotate 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  perspective: 1200px;
+}
+
+/* ==============================
+   GLOW & LIGHT EFFECTS
+   ============================== */
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.text-shimmer {
+  background: linear-gradient(90deg, var(--gold-dark) 0%, var(--gold-light) 50%, var(--gold-dark) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s ease-in-out infinite;
+}
+
+/* ==============================
+   FADE IN & SLIDE UP
+   ============================== */
+
+@keyframes fade-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-slide-up 0.8s ease-out both;
+}
+
+.animate-fade-in-delay-1 {
+  animation: fade-slide-up 0.8s ease-out 0.15s both;
+}
+
+.animate-fade-in-delay-2 {
+  animation: fade-slide-up 0.8s ease-out 0.3s both;
+}
+
+.animate-fade-in-delay-3 {
+  animation: fade-slide-up 0.8s ease-out 0.45s both;
+}
+
+/* ==============================
+   SECTION DIVIDERS
+   ============================== */
+
+.gold-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  border: none;
+}
+
+/* ==============================
+   CUSTOM SCROLLBAR
+   ============================== */
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gold);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold-dark);
+}
+
+/* ==============================
+   SELECTION
+   ============================== */
+
+::selection {
+  background: var(--gold);
+  color: var(--black);
+}
+
+/* ==============================
+   GLASSMORPHISM
+   ============================== */
+
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.glass-dark {
+  background: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* ========================================
+   RESPONSIVE OVERRIDES
+   ======================================== */
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 3.5rem !important;
+  }
+  
+  .orbital-bg {
+    filter: blur(60px);
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content h1 {
+    font-size: 2.8rem !important;
+  }
+  
+  .luxury-btn {
+    width: 100%;
+    min-width: unset;
+  }
+  
+  .hero-content p {
+    font-size: 1rem !important;
+    line-height: 1.6;
+  }
+}

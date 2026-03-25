@@ -1,0 +1,131 @@
+{
+  "name": "Veloura Order Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "orders",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "27f8d5b1-3e4c-4a3d-9d7a-12e2f3d4c5b6",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        400,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "Name",
+              "name": "Name",
+              "type": "string",
+              "value": "={{ $json.customer.fullName }}"
+            },
+            {
+              "id": "Email",
+              "name": "Email",
+              "type": "string",
+              "value": "={{ $json.customer.email }}"
+            },
+            {
+              "id": "Phone",
+              "name": "Phone",
+              "type": "string",
+              "value": "={{ $json.customer.phone }}"
+            },
+            {
+              "id": "Address",
+              "name": "Address",
+              "type": "string",
+              "value": "={{ $json.customer.address }}, {{ $json.customer.city }}"
+            },
+            {
+              "id": "Total Amount",
+              "name": "Total Amount",
+              "type": "number",
+              "value": "={{ $json.total }}"
+            },
+            {
+              "id": "Ordered Items",
+              "name": "Ordered Items",
+              "type": "string",
+              "value": "={{ $json.items.map(item => item.name + ' (x' + item.quantity + ')').join(', ') }}"
+            },
+            {
+              "id": "Order Date",
+              "name": "Order Date",
+              "type": "string",
+              "value": "={{ $json.timestamp }}"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "mode": "manual",
+        "options": {}
+      },
+      "id": "7d9e2a1b-4f5c-4d8e-9a1d-2b3c4d5e6f7a",
+      "name": "Set Order Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        600,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendRow",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID_HERE",
+          "mode": "id"
+        },
+        "sheetName": "Orders",
+        "dataMode": "mapEachFieldValueToColumn",
+        "options": {}
+      },
+      "id": "1b2c3d4e-5f6a-7b8c-9d0e-1f2a3b4c5d6e",
+      "name": "Add to Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        800,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Set Order Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Order Fields": {
+      "main": [
+        [
+          {
+            "node": "Add to Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
